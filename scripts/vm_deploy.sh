@@ -39,11 +39,11 @@ if [ ! -f "${APP_DIR}/index.html" ]; then
   exit 1
 fi
 
-if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-  docker rm -f "${CONTAINER_NAME}"
+if sudo docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+  sudo docker rm -f "${CONTAINER_NAME}"
 fi
 
-docker run -d \
+sudo docker run -d \
   --name "${CONTAINER_NAME}" \
   --restart unless-stopped \
   -p "${HOST_PORT}:80" \
@@ -64,5 +64,5 @@ for attempt in $(seq 1 "${ATTEMPTS}"); do
 done
 
 echo "Health check failed for ${HEALTH_URL}. Last container logs:" >&2
-docker logs --tail 50 "${CONTAINER_NAME}" >&2 || true
+sudo docker logs --tail 50 "${CONTAINER_NAME}" >&2 || true
 exit 1
