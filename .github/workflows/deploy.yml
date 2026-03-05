@@ -38,7 +38,7 @@ jobs:
           script: |
             set -euo pipefail
             set -x
-            APP_DIR="/opt/html5-portofolio"
+            APP_DIR="$HOME/html5-portofolio"
             REPO_URL="https://github.com/chioranionutcatalin/html5-portofolio.git"
             BRANCH="main"
 
@@ -55,8 +55,6 @@ jobs:
               git fetch origin "${BRANCH}"
               git reset --hard "origin/${BRANCH}"
             else
-              sudo mkdir -p /opt
-              sudo chown -R "$USER":"$USER" /opt
               git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
             fi
 

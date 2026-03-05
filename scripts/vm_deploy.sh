@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_DIR="/opt/html5-portofolio"
+APP_DIR="$HOME/html5-portofolio"
 REPO_URL="https://github.com/chioranionutcatalin/html5-portofolio.git"
 BRANCH="main"
 CONTAINER_NAME="portfolio-site"
@@ -22,9 +22,6 @@ if ! command -v curl >/dev/null 2>&1; then
   exit 1
 fi
 
-sudo mkdir -p "${APP_DIR}"
-sudo chown -R "$USER":"$USER" "${APP_DIR}"
-
 if [ -d "${APP_DIR}/.git" ]; then
   cd "${APP_DIR}"
   git fetch origin "${BRANCH}"
@@ -34,16 +31,27 @@ else
   git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
 fi
 
+DOCKER_CMD=(docker)
+if ! docker ps >/dev/null 2>&1; then
+  if sudo -n docker ps >/dev/null 2>&1; then
+    DOCKER_CMD=(sudo docker)
+  else
+    echo "docker requires elevated privileges for this user." >&2
+    echo "Run on VM once: sudo usermod -aG docker $USER, then logout/login." >&2
+    exit 1
+  fi
+fi
+
 if [ ! -f "${APP_DIR}/index.html" ]; then
   echo "index.html not found in ${APP_DIR}. Deployment aborted." >&2
   exit 1
 fi
 
-if sudo docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-  sudo docker rm -f "${CONTAINER_NAME}"
+if "${DOCKER_CMD[@]}" ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+  "${DOCKER_CMD[@]}" rm -f "${CONTAINER_NAME}"
 fi
 
-sudo docker run -d \
+"${DOCKER_CMD[@]}" run -d \
   --name "${CONTAINER_NAME}" \
   --restart unless-stopped \
   -p "${HOST_PORT}:80" \
@@ -64,5 +72,5 @@ for attempt in $(seq 1 "${ATTEMPTS}"); do
 done
 
 echo "Health check failed for ${HEALTH_URL}. Last container logs:" >&2
-sudo docker logs --tail 50 "${CONTAINER_NAME}" >&2 || true
+"${DOCKER_CMD[@]}" logs --tail 50 "${CONTAINER_NAME}" >&2 || true
 exit 1

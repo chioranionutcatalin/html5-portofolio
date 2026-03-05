@@ -5,7 +5,7 @@ This repository now has automatic deployment from GitHub Actions to your VM.
 ## What the pipeline does
 - On every push to `main`, the `Deploy to GCP VM` workflow runs.
 - It connects to your VM over SSH.
-- It clones/updates the repository in `/opt/html5-portofolio`.
+- It clones/updates the repository in `$HOME/html5-portofolio`.
 - It recreates the `portfolio-site` container on port `8081`.
 
 Nginx Proxy Manager can stay configured to forward `me.aionbit.net` to `172.17.0.1:8081`.
@@ -38,6 +38,14 @@ Make sure these are installed:
 - `git`
 - `docker`
 
+The SSH user used by GitHub Actions must be able to run Docker.
+
+```bash
+sudo usermod -aG docker <VM_USER>
+```
+
+Then logout/login (or reboot) before running the workflow again.
+
 Quick commands (Ubuntu/Debian):
 
 ```bash
@@ -63,7 +71,7 @@ In the `aionbit.net` zone:
 If you want to deploy manually directly on the VM:
 
 ```bash
-cd /opt/html5-portofolio
+cd ~/html5-portofolio
 bash scripts/vm_deploy.sh
 ```
 
