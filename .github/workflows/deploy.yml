@@ -37,9 +37,18 @@ jobs:
           debug: true
           script: |
             set -euo pipefail
+            set -x
             APP_DIR="/opt/html5-portofolio"
             REPO_URL="https://github.com/chioranionutcatalin/html5-portofolio.git"
             BRANCH="main"
+
+            whoami
+            hostname
+            pwd
+            command -v git
+            command -v docker || true
+            command -v curl || true
+            sudo -n true
 
             if [ -d "${APP_DIR}/.git" ]; then
               cd "${APP_DIR}"
@@ -52,4 +61,5 @@ jobs:
             fi
 
             chmod +x "${APP_DIR}/scripts/vm_deploy.sh"
-            "${APP_DIR}/scripts/vm_deploy.sh"
+            sed -i 's/\r$//' "${APP_DIR}/scripts/vm_deploy.sh"
+            bash -x "${APP_DIR}/scripts/vm_deploy.sh"
