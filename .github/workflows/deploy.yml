@@ -49,13 +49,13 @@ jobs:
             command -v docker || true
             command -v curl || true
 
-            if [ -d "${APP_DIR}/.git" ]; then
-              cd "${APP_DIR}"
-              git fetch origin "${BRANCH}"
-              git reset --hard "origin/${BRANCH}"
-            else
-              git clone --branch "${BRANCH}" "${REPO_URL}" "${APP_DIR}"
-            fi
+            mkdir -p "${APP_DIR}"
+            cd "${APP_DIR}"
+            git init
+            git remote remove origin || true
+            git remote add origin "${REPO_URL}"
+            git fetch --depth=1 origin "${BRANCH}"
+            git reset --hard "origin/${BRANCH}"
 
             chmod +x "${APP_DIR}/scripts/vm_deploy.sh"
             sed -i 's/\r$//' "${APP_DIR}/scripts/vm_deploy.sh"
