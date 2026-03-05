@@ -63,6 +63,12 @@
           rel="noopener noreferrer"
           ><span>LinkedIn</span></a
         >
+        <a
+          id="download-cv"
+          href="assets/files/chioran_ionut_date.pdf"
+          class="icon solid fa-file-alt"
+          ><span>Download CV</span></a
+        >
       </nav>
 
       <!-- Main -->
@@ -415,5 +421,24 @@
     <script src="assets/js/util.js?v=__ASSET_VERSION__"></script>
     <script src="assets/js/main.js?v=__ASSET_VERSION__"></script>
     <script src="assets/js/contact-form.js?v=__ASSET_VERSION__"></script>
+    <script>
+      (function () {
+        var cvLink = document.getElementById("download-cv");
+        if (!cvLink) return;
+
+        var date = new Date();
+        var day = String(date.getDate()).padStart(2, "0");
+        var month = String(date.getMonth() + 1).padStart(2, "0");
+        var year = date.getFullYear();
+        var currentDate = day + "-" + month + "-" + year;
+
+        var sourceName = cvLink.getAttribute("href").split("/").pop();
+        var downloadName = sourceName
+          .replace(/date/i, currentDate)
+          .replace(/_/g, "-");
+
+        cvLink.setAttribute("download", downloadName);
+      })();
+    </script>
   </body>
 </html>

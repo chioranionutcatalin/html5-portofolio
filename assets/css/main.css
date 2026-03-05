@@ -2148,15 +2148,15 @@ input, select, textarea {
 						position: absolute;
 						right: 0;
 						top: 50%;
-						margin-top: -1.375em;
-						width: 2.75em;
-						height: 2.75em;
+						margin-top: -0.95em;
+						width: 1.9em;
+						height: 1.9em;
 						background: #000;
 						background: rgba(0, 0, 0, 0.75);
 						color: #ffffff;
 						text-align: center;
-						line-height: 2.75em;
-						font-size: 1.5em;
+						line-height: 1.9em;
+						font-size: 1em;
 						z-index: 1;
 						-moz-transition: width .15s ease-in-out, padding-right .15s ease-in-out;
 						-webkit-transition: width .15s ease-in-out, padding-right .15s ease-in-out;
@@ -2176,23 +2176,23 @@ input, select, textarea {
 						}
 
 					#main > .panel.intro .pic:hover .arrow {
-						width: 3em;
-						padding-right: 0.25em;
+						width: 2.05em;
+						padding-right: 0.1em;
 					}
 
 			#main > .panel .panel-arrow {
 				display: block;
 				position: absolute;
 				top: 50%;
-				margin-top: -1.375em;
-				width: 2.75em;
-				height: 2.75em;
+				margin-top: -0.95em;
+				width: 1.9em;
+				height: 1.9em;
 				background: #000;
 				background: rgba(0, 0, 0, 0.75);
 				color: #ffffff;
 				text-align: center;
-				line-height: 2.75em;
-				font-size: 1.5em;
+				line-height: 1.9em;
+				font-size: 1em;
 				z-index: 2;
 				-moz-transition: width .15s ease-in-out, padding-right .15s ease-in-out, padding-left .15s ease-in-out;
 				-webkit-transition: width .15s ease-in-out, padding-right .15s ease-in-out, padding-left .15s ease-in-out;
@@ -2214,13 +2214,13 @@ input, select, textarea {
 			}
 
 			#main > .panel .panel-arrow-prev:hover {
-				width: 3em;
-				padding-left: 0.25em;
+				width: 2.05em;
+				padding-left: 0.1em;
 			}
 
 			#main > .panel .panel-arrow-next:hover {
-				width: 3em;
-				padding-right: 0.25em;
+				width: 2.05em;
+				padding-right: 0.1em;
 			}
 
 				#main > .panel.intro header {
