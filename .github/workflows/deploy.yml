@@ -11,6 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: SSH connectivity check
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_PORT }}
+          script_stop: true
+          debug: true
+          script: |
+            set -euo pipefail
+            echo "Connected to VM"
+            whoami
+            hostname
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -19,6 +34,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: ${{ secrets.VM_PORT }}
           script_stop: true
+          debug: true
           script: |
             set -euo pipefail
             APP_DIR="/opt/html5-portofolio"
