@@ -47,6 +47,9 @@ if [ ! -f "${APP_DIR}/index.html" ]; then
   exit 1
 fi
 
+ASSET_VERSION="$(git -C "${APP_DIR}" rev-parse --short HEAD)"
+sed -i "s/__ASSET_VERSION__/${ASSET_VERSION}/g" "${APP_DIR}/index.html"
+
 if "${DOCKER_CMD[@]}" ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
   "${DOCKER_CMD[@]}" rm -f "${CONTAINER_NAME}"
 fi
